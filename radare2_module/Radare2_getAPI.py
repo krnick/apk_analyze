@@ -3,7 +3,7 @@ import os
 import subprocess
 
 
-class r2_cmd:
+class R2_cmd:
 
 	dex_file = ""
 
