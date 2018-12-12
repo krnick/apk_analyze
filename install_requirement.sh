@@ -1,5 +1,10 @@
-#git clone https://github.com/radare/radare2.git
+git clone https://github.com/radare/radare2.git
 radare2/sys/install.sh
+
+
+
+#install java
+sudo apt install default-jre -y
 
 
 #install apktool

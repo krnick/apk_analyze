@@ -35,7 +35,8 @@ def analyse(checks, r2p):
     if "strings" in checks:
         result["strings"] = r2_check_strings(checks["strings"], r2p)
     if "methods" in checks:
-        result["methods"] = r2_check_classes_and_methods(checks["methods"], r2p)
+        result["methods"] = r2_check_classes_and_methods(
+            checks["methods"], r2p)
     if "imports" in checks:
         result["imports"] = r2_check_imports(checks["imports"], r2p)
     if "symbols" in checks:
@@ -65,17 +66,18 @@ def print_results(analysis_results, messages, r2p):
 
 #分析#
 
+path_apk_file = ""
+path_dex_file = ""
+
 
 # reflection 取得每一個變數
 attributes = inspect.getmembers(SIGNATURE())
 
-
-newapk = Radare2_getAPI.R2_cmd(
-    "/home/nick/code/malware/malware-anal/1/classes.dex")
+newapk = Radare2_getAPI.R2_cmd(path_dex_file)
 
 # 要檢查的特徵
 for check_list in attributes:
-    if(not check_list[0].startswith("_")):
+    if (not check_list[0].startswith("_")):
 
         for num in range(0, len(check_list[0]) + 2):
             print("#", end="")
@@ -89,15 +91,14 @@ for check_list in attributes:
 
         result = analyse(check_list[1], newapk.r2)
 
-        print_results(result, {"found": "\n[*] " + check_list[0] + " usage found in %s\n",
-                               "not_found": "\n[*] No " + check_list[0] + " usage found in %s"},
-                      newapk.r2
-                      )
-
+        print_results(
+            result, {
+                "found": "\n[*] " + check_list[0] + " usage found in %s\n",
+                "not_found": "\n[*] No " + check_list[0] + " usage found in %s"
+            }, newapk.r2)
 
 #列出權限#
 
-
-a, d, dx = misc.AnalyzeAPK("/home/nick/code/malware/malware-anal/1.apk")
+a, d, dx = misc.AnalyzeAPK(path_apk_file)
 
 androguard_getpermission.getPermissionDetails(a)
