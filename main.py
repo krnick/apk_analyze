@@ -4,7 +4,7 @@ from radare2_module import Radare2_getAPI
 from Signature.SIGNATURE import SIGNATURE
 import inspect
 import r2pipe
-
+import argparse
 
 # Radare2 wrapper functions
 def r2_check(strings, r2p, r2cmd):
@@ -64,11 +64,22 @@ def print_results(analysis_results, messages, r2p):
     return
 
 
+
+#arg parse 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-apk", help="apk path file",dest="apk_file")
+parser.add_argument("-dex", help="dex path file",dest="dex_file")
+args = parser.parse_args()
+
+
+
+
+
 #分析#
 
-path_apk_file = ""
-path_dex_file = ""
-
+path_apk_file = args.apk_file
+path_dex_file = args.dex_file
 
 # reflection 取得每一個變數
 attributes = inspect.getmembers(SIGNATURE())
