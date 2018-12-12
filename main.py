@@ -2,9 +2,13 @@ from androguard_module import androguard_getpermission
 from androguard import misc
 from radare2_module import Radare2_getAPI
 from Signature.SIGNATURE import SIGNATURE
+from virustotal_module.vt import VT
 import inspect
 import r2pipe
 import argparse
+import hashlib
+
+
 
 # Radare2 wrapper functions
 def r2_check(strings, r2p, r2cmd):
@@ -74,42 +78,55 @@ args = parser.parse_args()
 
 
 
+if(args.apk_file is not None and args.dex_file is not None):
+
+	# 分析
+
+	path_apk_file = args.apk_file
+	path_dex_file = args.dex_file
+
+	# reflection 取得每一個變數
+	attributes = inspect.getmembers(SIGNATURE())
+
+	newapk = Radare2_getAPI.R2_cmd(path_dex_file)
+
+	# 要檢查的特徵
+	for check_list in attributes:
+		if (not check_list[0].startswith("_")):
+
+			for num in range(0, len(check_list[0]) + 2):
+				print("#", end="")
+			print("")
+			print("#" + check_list[0] + "#")
+
+			for num in range(0, len(check_list[0]) + 2):
+		    		print("#", end="")
+
+			print("")
+
+			result = analyse(check_list[1], newapk.r2)
+
+			print_results(
+		    	result, {
+			"found": "\n[*] " + check_list[0] + " usage found in %s\n",
+			"not_found": "\n[*] No " + check_list[0] + " usage found in %s"
+		    	}, newapk.r2)
+
+	# 列出權限
+
+	a, d, dx = misc.AnalyzeAPK(path_apk_file)
+
+	androguard_getpermission.getPermissionDetails(a)
 
 
-#分析#
+	# Virustotal positive
+	API_KEY = ""
+	hash_md5 = hashlib.md5()
+	
+	vt_result = VT.VT("6d863d8f7130148d479775ac69079999ff02f8d4ab0003ad4b50128331509760",)
+	vt_result.getVT_result()
 
-path_apk_file = args.apk_file
-path_dex_file = args.dex_file
+else:
+	print("usage python main.py -h")
 
-# reflection 取得每一個變數
-attributes = inspect.getmembers(SIGNATURE())
 
-newapk = Radare2_getAPI.R2_cmd(path_dex_file)
-
-# 要檢查的特徵
-for check_list in attributes:
-    if (not check_list[0].startswith("_")):
-
-        for num in range(0, len(check_list[0]) + 2):
-            print("#", end="")
-        print("")
-        print("#" + check_list[0] + "#")
-
-        for num in range(0, len(check_list[0]) + 2):
-            print("#", end="")
-
-        print("")
-
-        result = analyse(check_list[1], newapk.r2)
-
-        print_results(
-            result, {
-                "found": "\n[*] " + check_list[0] + " usage found in %s\n",
-                "not_found": "\n[*] No " + check_list[0] + " usage found in %s"
-            }, newapk.r2)
-
-#列出權限#
-
-a, d, dx = misc.AnalyzeAPK(path_apk_file)
-
-androguard_getpermission.getPermissionDetails(a)
