@@ -25,8 +25,10 @@ class SIGNATURE():
         ]
     }
     locationchecks = {
-        "imports":
-        ["GoogleApiClient", "FusedLocationProvider", "setMockLocation"],
+        "imports": [
+            "GoogleApiClient", "FusedLocationProvider", "setMockLocation",
+            "getLatitude", "getLastKnownLocation", "getCellLocation"
+        ],
         "methods": [
             "getLastLocation", "getLocationAvailability",
             "requestLocationUpdates", "setMockLocation"
@@ -43,6 +45,15 @@ class SIGNATURE():
         "symbols": ["connect", "send", "tcp", "udp"]
     }
 
+    internet = {
+        "imports": [
+            "openConnection", "isConnected", "getActiveNetworkInfo",
+            "getConnectionInfo", "HttpClient.method.execute"
+        ]
+    }
+
+    wifi_setting = {"imports": ["setWifiEnabled", "getScanResults","getMacAddress","getNetworkOperator"]}
+
     urlchecks = {"strings": ["http:", "https:", "ftp:", "rtsp:"]}
 
     filechecks = {
@@ -54,7 +65,8 @@ class SIGNATURE():
         "strings": ["file:", "/tmp/", "/data/"]
     }
     cryptochecks = {
-        "imports": ["crypt", "keystore", "cipher"],
+        "imports":
+        ["crypt", "keystore", "cipher", "MessageDigest.method.getInstance"],
         "methods": ["crypt", "cipher", "keystore"],
         "symbols": ["crypt", "cipher", "keystore"]
     }
@@ -87,3 +99,26 @@ class SIGNATURE():
         "methods":
         ["password", "pass", "admin", "secret", "encrypt", "decrypt"]
     }
+
+    native_command = {"symbols": ["ProcessBuilder", "exec"]}
+    dexclassloader = {
+        "symbols": ["DexClassLoader", "loadClass", "MyClassLoader"]
+    }
+
+    process_kill = {"imports": ["killProcess"]}
+
+    relection = {"imports": ["reflect", "reflect/Method.method.invoke"]}
+
+    hooking = {"imports": ["setComponentEnabledSetting"]}
+
+    system_evasion = {"strings": ["/proc/meminfo", "/proc/mounts"]}
+
+    sensitive_information = {
+        "strings": [
+            "os", "android", "cpu", "imsi", "IMSI", "IMEI", "imei", "version",
+            "sid", "appid", "phone"
+        ]
+    }
+    query_operating_id = {
+	"imports": ["Secure.method.getString"]
+	}
