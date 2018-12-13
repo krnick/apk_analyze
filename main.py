@@ -3,10 +3,10 @@ from androguard import misc
 from radare2_module import Radare2_getAPI
 from Signature.SIGNATURE import SIGNATURE
 from virustotal_module.vt import VT
+from hash_module.hash import HASH
 import inspect
 import r2pipe
 import argparse
-import hashlib
 
 
 
@@ -121,8 +121,12 @@ if(args.apk_file is not None and args.dex_file is not None):
 
 	# Virustotal positive
 	API_KEY = "6d863d8f7130148d479775ac69079999ff02f8d4ab0003ad4b50128331509760"
+	apk_file_hash_obj = HASH(path_apk_file)	
+
+	apk_file_hash = apk_file_hash_obj.getAPKHASH()
 	
-	vt_result = VT.VT(API_KEY,)
+	
+	vt_result = VT(API_KEY,apk_file_hash)
 	vt_result.getVT_result()
 
 else:
