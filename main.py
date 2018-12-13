@@ -120,10 +120,9 @@ if(args.apk_file is not None and args.dex_file is not None):
 
 
 	# Virustotal positive
-	API_KEY = ""
-	hash_md5 = hashlib.md5()
+	API_KEY = "6d863d8f7130148d479775ac69079999ff02f8d4ab0003ad4b50128331509760"
 	
-	vt_result = VT.VT("6d863d8f7130148d479775ac69079999ff02f8d4ab0003ad4b50128331509760",)
+	vt_result = VT.VT(API_KEY,)
 	vt_result.getVT_result()
 
 else:

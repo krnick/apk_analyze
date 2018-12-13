@@ -1,6 +1,8 @@
 git clone https://github.com/radare/radare2.git
 radare2/sys/install.sh
-
+#
+sudo apt install python-pip
+pip install pipenv
 
 
 #install java
